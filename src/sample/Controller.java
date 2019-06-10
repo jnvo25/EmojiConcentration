@@ -3,6 +3,7 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
@@ -28,7 +29,7 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+        turnOver();
     }
 
 
@@ -37,5 +38,21 @@ public class Controller implements Initializable {
     }
 
     public void resetButton_pressed(ActionEvent actionEvent) {
+    }
+
+    private void turnOver() {
+        Image image = new Image(String.valueOf(getClass().getResource("/sample/resources/cardBack.png")));
+        imageView_1.setImage(image);
+        imageView_2.setImage(image);
+        imageView_3.setImage(image);
+        imageView_4.setImage(image);
+        imageView_5.setImage(image);
+        imageView_6.setImage(image);
+        imageView_7.setImage(image);
+        imageView_8.setImage(image);
+        imageView_9.setImage(image);
+        imageView_10.setImage(image);
+        imageView_11.setImage(image);
+        imageView_12.setImage(image);
     }
 }
