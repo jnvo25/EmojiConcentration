@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -26,19 +27,78 @@ public class Controller implements Initializable {
     public ImageView imageView_12;
     public Label moves_label;
 
+    private ConcentrationModel game;
+
+    private String[] emojis = {"bat.png", "candy.png", "clown.png", "devil.png", "ghost.png", "pumpkin.png"};
+    private ArrayList<ImageView> allImages;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        allImages = new ArrayList<>();
+        allImages.add(imageView_1);
+        allImages.add(imageView_2);
+        allImages.add(imageView_3);
+        allImages.add(imageView_4);
+        allImages.add(imageView_5);
+        allImages.add(imageView_6);
+        allImages.add(imageView_7);
+        allImages.add(imageView_8);
+        allImages.add(imageView_9);
+        allImages.add(imageView_10);
+        allImages.add(imageView_11);
+        allImages.add(imageView_12);
+
+
+        game = new ConcentrationModel();
         turnOver();
     }
 
 
     public void imageView_clicked(MouseEvent mouseEvent) {
+        ImageView imageView = (ImageView) mouseEvent.getSource();
+        if(!game.getCardMatch(Integer.parseInt(imageView.getId().substring(10)) - 1)) {
+            game.flipCard(Integer.parseInt(imageView.getId().substring(10)) - 1);
+            moves_label.setText(String.valueOf(game.getMoves()));
+            updateView();
+
+            // Create new thread to sleep because original thread updateView will be paused as well until freed
+            new Thread(() -> { //use another thread so long process does not block gui
+
+                if (game.card2Present()) {
+                    try {
+                        Thread.sleep(600);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                    game.checkCards();
+                    updateView();
+                }
+            }).start();
+        }
 
     }
 
     public void resetButton_pressed(ActionEvent actionEvent) {
+
     }
+
+    private void updateView() {
+        System.out.println("Update View");
+        for(int i=0; i<12; i++) {
+            if(game.getCardMatch(i)) {
+                allImages.get(i).setImage(null);
+            } else if(game.getCardFlip(i)) {
+                Image image = new Image(String.valueOf(getClass().getResource("/sample/resources/" + emojis[game.getCardValue(i)])));
+                allImages.get(i).setImage(image);
+            } else if(!game.getCardFlip(i)) {
+                Image image = new Image(String.valueOf(getClass().getResource("/sample/resources/cardBack.png")));
+                allImages.get(i).setImage(image);
+            } else {
+                System.out.println("error");
+            }
+        }
+    }
+
 
     private void turnOver() {
         Image image = new Image(String.valueOf(getClass().getResource("/sample/resources/cardBack.png")));
