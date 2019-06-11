@@ -10,20 +10,11 @@ class ConcentrationModel {
     private Card card1, card2;
 
     ConcentrationModel() {
-        moves = 0;
-        cards = new ArrayList<>();
-        for(int i=0; i<6; i++) {
-            Card card1 = new Card(i);
-            Card card2 = new Card(i);
-            cards.add(card1);
-            cards.add(card2);
-        }
-        Collections.shuffle(cards);
+        resetGame();
     }
 
     void flipCard(int cardIndex) {
         moves++;
-        System.out.println(cards.get(cardIndex).getValue());
         if(card1 == null) {
             card1 = cards.get(cardIndex);
             if(!card1.isFlipped())
@@ -36,9 +27,6 @@ class ConcentrationModel {
     }
 
     void checkCards() {
-        System.out.println(card1.getValue());
-        System.out.println(card2.getValue());
-        System.out.println(card1.compareTo(card2));
         if (card1.getValue() == card2.getValue()) {
             card1.match();
             card2.match();
@@ -46,11 +34,8 @@ class ConcentrationModel {
             card1.flip();
             card2.flip();
         }
-        System.out.println("A");
-
         card1 = null;
         card2 = null;
-
     }
 
     boolean card2Present() {
@@ -71,6 +56,18 @@ class ConcentrationModel {
 
     int getMoves() {
         return moves;
+    }
+
+    void resetGame() {
+        moves = 0;
+        cards = new ArrayList<>();
+        for(int i=0; i<6; i++) {
+            Card card1 = new Card(i);
+            Card card2 = new Card(i);
+            cards.add(card1);
+            cards.add(card2);
+        }
+        Collections.shuffle(cards);
     }
 
 }

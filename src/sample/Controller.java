@@ -48,22 +48,20 @@ public class Controller implements Initializable {
         allImages.add(imageView_11);
         allImages.add(imageView_12);
 
-
         game = new ConcentrationModel();
         turnOver();
     }
 
-
     public void imageView_clicked(MouseEvent mouseEvent) {
         ImageView imageView = (ImageView) mouseEvent.getSource();
-        if(!game.getCardMatch(Integer.parseInt(imageView.getId().substring(10)) - 1)) {
-            game.flipCard(Integer.parseInt(imageView.getId().substring(10)) - 1);
+        int currentIndex = Integer.parseInt(imageView.getId().substring(10)) - 1;
+        if (!game.getCardMatch(currentIndex) && !game.getCardFlip(currentIndex) && !game.card2Present()) {
+            game.flipCard(currentIndex);
             moves_label.setText(String.valueOf(game.getMoves()));
             updateView();
 
             // Create new thread to sleep because original thread updateView will be paused as well until freed
             new Thread(() -> { //use another thread so long process does not block gui
-
                 if (game.card2Present()) {
                     try {
                         Thread.sleep(600);
@@ -79,11 +77,13 @@ public class Controller implements Initializable {
     }
 
     public void resetButton_pressed(ActionEvent actionEvent) {
+        game.resetGame();
+        updateView();
+        moves_label.setText("0");
 
     }
 
     private void updateView() {
-        System.out.println("Update View");
         for(int i=0; i<12; i++) {
             if(game.getCardMatch(i)) {
                 allImages.get(i).setImage(null);
@@ -98,7 +98,6 @@ public class Controller implements Initializable {
             }
         }
     }
-
 
     private void turnOver() {
         Image image = new Image(String.valueOf(getClass().getResource("/sample/resources/cardBack.png")));
