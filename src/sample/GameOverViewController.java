@@ -14,11 +14,13 @@ import java.io.IOException;
 public class GameOverViewController {
     public Label moves_label;
 
-    private int score;
-
     void initData(int moves) {
-        score = moves;
-        moves_label.setText(String.valueOf(score));
+        moves_label.setText(String.valueOf(moves));
+
+        // Write to file
+        HighscoresModel highscores = new HighscoresModel();
+        highscores.add(moves);
+        highscores.save();
     }
 
     public void playAgainButton_pressed(ActionEvent actionEvent) throws IOException {
@@ -31,6 +33,7 @@ public class GameOverViewController {
     }
 
     public void viewHighscoreButton_pressed(ActionEvent actionEvent) {
+
     }
 
     public void exitButton_pressed(ActionEvent actionEvent) {

@@ -21,6 +21,7 @@ public class MainMenuViewController {
     }
 
     public void highscoreButton_pressed(ActionEvent actionEvent) {
+
     }
 
     public void exitButton_pressed(ActionEvent actionEvent) {

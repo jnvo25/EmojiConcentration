@@ -97,7 +97,7 @@ public class GameViewController implements Initializable {
 
     }
 
-    public void resetButton_pressed(ActionEvent actionEvent) {
+    public void resetButton_pressed() {
         game.resetGame();
         updateView();
         moves_label.setText("0");
@@ -142,17 +142,4 @@ public class GameViewController implements Initializable {
         window.show();
     }
 
-
-    // Passing value and load new scene
-//        FXMLLoader loader = new FXMLLoader();
-//        loader.setLocation(getClass().getResource("GameOverView.fxml"));
-//        Parent tableViewParent = loader.load();
-//        Scene tableViewScene = new Scene(tableViewParent);
-//
-//        GameOverViewController controller = loader.getController();
-//        controller.initData(game.getMoves());
-//
-//        Stage window = (Stage)((Node) actionEvent.getSource()).getScene().getWindow();
-//        window.setScene(tableViewScene);
-//        window.show();
 }
