@@ -58,6 +58,14 @@ class ConcentrationModel {
         return moves;
     }
 
+    boolean gameOver() {
+        for(int i=0; i<12; i++) {
+            if(!cards.get(i).isMatched())
+                return false;
+        }
+        return true;
+    }
+
     void resetGame() {
         moves = 0;
         cards = new ArrayList<>();

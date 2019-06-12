@@ -58,7 +58,7 @@ public class GameViewController implements Initializable {
         turnOver();
     }
 
-    public void imageView_clicked(MouseEvent mouseEvent) {
+    public void imageView_clicked(MouseEvent mouseEvent) throws IOException {
         ImageView imageView = (ImageView) mouseEvent.getSource();
         int currentIndex = Integer.parseInt(imageView.getId().substring(10)) - 1;
         if (!game.getCardMatch(currentIndex) && !game.getCardFlip(currentIndex) && !game.card2Present()) {
@@ -66,18 +66,33 @@ public class GameViewController implements Initializable {
             moves_label.setText(String.valueOf(game.getMoves()));
             updateView();
 
-            // Create new thread to sleep because original thread updateView will be paused as well until freed
-            new Thread(() -> { //use another thread so long process does not block gui
-                if (game.card2Present()) {
+            if (game.card2Present()) {
+                game.checkCards();
+                // Create new thread to sleep because original thread updateView will be paused as well until freed
+                new Thread(() -> { //use another thread so long process does not block gui
                     try {
                         Thread.sleep(600);
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }
-                    game.checkCards();
                     updateView();
-                }
-            }).start();
+                }).start();
+            }
+            if(game.gameOver()) {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("GameOverView.fxml"));
+                Parent tableViewParent = loader.load();
+                Scene tableViewScene = new Scene(tableViewParent);
+
+                GameOverViewController controller = loader.getController();
+                controller.initData(game.getMoves());
+
+                Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+                window.setScene(tableViewScene);
+                window.show();
+            }
+
+
         }
 
     }
@@ -86,7 +101,6 @@ public class GameViewController implements Initializable {
         game.resetGame();
         updateView();
         moves_label.setText("0");
-
     }
 
     private void updateView() {
@@ -96,11 +110,9 @@ public class GameViewController implements Initializable {
             } else if(game.getCardFlip(i)) {
                 Image image = new Image(String.valueOf(getClass().getResource("/sample/resources/" + emojis[game.getCardValue(i)])));
                 allImages.get(i).setImage(image);
-            } else if(!game.getCardFlip(i)) {
+            } else {
                 Image image = new Image(String.valueOf(getClass().getResource("/sample/resources/cardBack.png")));
                 allImages.get(i).setImage(image);
-            } else {
-                System.out.println("error");
             }
         }
     }
@@ -129,4 +141,18 @@ public class GameViewController implements Initializable {
         window.setScene(tableViewScene);
         window.show();
     }
+
+
+    // Passing value and load new scene
+//        FXMLLoader loader = new FXMLLoader();
+//        loader.setLocation(getClass().getResource("GameOverView.fxml"));
+//        Parent tableViewParent = loader.load();
+//        Scene tableViewScene = new Scene(tableViewParent);
+//
+//        GameOverViewController controller = loader.getController();
+//        controller.initData(game.getMoves());
+//
+//        Stage window = (Stage)((Node) actionEvent.getSource()).getScene().getWindow();
+//        window.setScene(tableViewScene);
+//        window.show();
 }
