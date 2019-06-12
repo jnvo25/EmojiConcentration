@@ -10,7 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("MainMenuView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("GameOverView.fxml"));
         primaryStage.setTitle("Emoji Concentration");
         primaryStage.setScene(new Scene(root, 622, 396));
         primaryStage.show();

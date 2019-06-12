@@ -6,24 +6,26 @@ import java.util.Collections;
 
 class HighscoresModel {
 
-    private ArrayList<Integer> scores;
+    private ArrayList<Record> scores;
 
     HighscoresModel() {
         scores = new ArrayList<>();
-        try {
-            FileInputStream inFile = new FileInputStream("highscores.ser");
-            ObjectInputStream in = new ObjectInputStream(inFile);
+        if((new File("highscores.ser")).exists()) {
+            try {
+                FileInputStream inFile = new FileInputStream("highscores.ser");
+                ObjectInputStream in = new ObjectInputStream(inFile);
 
-            // Make sure file's array list is valid
-            ArrayList<?> temp = (ArrayList<?>)in.readObject();
-            for (Object x : temp) {
-                scores.add((Integer) x);
+                // Make sure file's array list is valid
+                ArrayList<?> temp = (ArrayList<?>) in.readObject();
+                for (Object x : temp) {
+                    scores.add((Record) x);
+                }
+
+                in.close();
+                inFile.close();
+            } catch (IOException | ClassNotFoundException ex) {
+                save();
             }
-
-            in.close();
-            inFile.close();
-        } catch(IOException | ClassNotFoundException ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -35,17 +37,24 @@ class HighscoresModel {
             out.close();
             outFile.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("ERROR SAVING FILE");
         }
     }
 
-    void add(int score) {
-        scores.add(score);
+    void add(String name, int score) {
+        scores.add(new Record(name, score));
         Collections.sort(scores);
-        Collections.reverse(scores);
     }
 
-    int getScore(int index) {
+    Record getRecord(int index) {
         return scores.get(index);
+    }
+
+    Record getLastHighestRecord() {
+        return scores.get(0);
+    }
+
+    int getSize() {
+        return scores.size();
     }
 }

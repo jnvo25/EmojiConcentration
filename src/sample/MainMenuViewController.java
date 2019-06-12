@@ -20,8 +20,13 @@ public class MainMenuViewController {
         window.show();
     }
 
-    public void highscoreButton_pressed(ActionEvent actionEvent) {
+    public void highscoreButton_pressed(ActionEvent actionEvent) throws IOException {
+        Parent tableViewParent = FXMLLoader.load(getClass().getResource("HighscoresView.fxml"));
+        Scene tableViewScene = new Scene(tableViewParent);
 
+        Stage window = (Stage)((Node) actionEvent.getSource()).getScene().getWindow();
+        window.setScene(tableViewScene);
+        window.show();
     }
 
     public void exitButton_pressed(ActionEvent actionEvent) {

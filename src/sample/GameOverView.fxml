@@ -5,27 +5,33 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="396.0" prefWidth="622.0" xmlns="http://javafx.com/javafx/10.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GameOverViewController">
+<AnchorPane prefHeight="396.0" prefWidth="622.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GameOverViewController">
    <Label layoutX="171.0" layoutY="88.0" text="Game Over!">
       <font>
-         <Font size="50.0"/>
+         <Font size="50.0" />
       </font>
    </Label>
    <Label layoutX="210.0" layoutY="245.0" text="Moves:">
       <font>
-         <Font size="24.0"/>
+         <Font size="24.0" />
       </font>
    </Label>
    <Label fx:id="moves_label" layoutX="300.0" layoutY="198.0" prefHeight="93.0" prefWidth="102.0" text="0">
       <font>
-         <Font size="75.0"/>
+         <Font size="75.0" />
       </font>
    </Label>
-   <Button layoutX="131.0" layoutY="312.0" mnemonicParsing="false" onAction="#playAgainButton_pressed"
-           text="Play again"/>
-   <Button layoutX="254.0" layoutY="312.0" mnemonicParsing="false" onAction="#viewHighscoreButton_pressed"
-           text="View Highscore"/>
-   <Button layoutX="431.0" layoutY="312.0" mnemonicParsing="false" onAction="#exitButton_pressed" text="Exit"/>
+   <Button layoutX="131.0" layoutY="312.0" mnemonicParsing="false" onAction="#playAgainButton_pressed" text="Play again" />
+   <Button layoutX="254.0" layoutY="312.0" mnemonicParsing="false" onAction="#viewHighscoreButton_pressed" text="View Highscore" />
+   <Button layoutX="431.0" layoutY="312.0" mnemonicParsing="false" onAction="#exitButton_pressed" text="Exit" />
+   <AnchorPane fx:id="highscore_anchorPane" layoutX="402.0" layoutY="166.0" prefHeight="108.0" prefWidth="200.0">
+      <Label layoutX="13.0" layoutY="45.0" text="Lowest moves:"/>
+      <Label layoutX="15.0" layoutY="75.0" text="Set by:"/>
+      <Label fx:id="lowestMoves_label" layoutX="114.0" layoutY="17.0" prefHeight="56.0" prefWidth="73.0" text="0">
+         <font>
+            <Font size="45.0"/>
+         </font>
+      </Label>
+      <Label fx:id="name_label" layoutX="66.0" layoutY="75.0" text="Name"/>
+   </AnchorPane>
 </AnchorPane>
