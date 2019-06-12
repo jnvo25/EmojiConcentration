@@ -46,6 +46,10 @@ class HighscoresModel {
         Collections.sort(scores);
     }
 
+    boolean checkHighscore(int score) {
+        return score < scores.get(0).getScore();
+    }
+
     Record getRecord(int index) {
         return scores.get(index);
     }

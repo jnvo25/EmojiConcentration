@@ -26,21 +26,23 @@ public class GameOverViewController implements Initializable {
     void initData(int moves) {
         moves_label.setText(String.valueOf(moves));
 
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Emoji Concentration");
-        dialog.setHeaderText("Enter your name:");
-        dialog.setContentText("Name:");
-        Optional<String> result = dialog.showAndWait();
-
-        String passedName = "N/A";
-        if(result.isPresent()) {
-            passedName = result.get();
-        }
-
-        // Write to file
         HighscoresModel highscores = new HighscoresModel();
-        highscores.add(passedName, moves);
-        highscores.save();
+        if(highscores.checkHighscore(moves)) {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Emoji Concentration");
+            dialog.setHeaderText("New Highscore!");
+            dialog.setContentText("Name:");
+            Optional<String> result = dialog.showAndWait();
+
+            String passedName = "N/A";
+            if (result.isPresent()) {
+                passedName = result.get();
+            }
+
+            // Write to file
+            highscores.add(passedName, moves);
+            highscores.save();
+        }
     }
 
     @Override
