@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,5 +18,13 @@ public class MainMenuViewController {
         Stage window = (Stage)((Node) actionEvent.getSource()).getScene().getWindow();
         window.setScene(tableViewScene);
         window.show();
+    }
+
+    public void highscoreButton_pressed(ActionEvent actionEvent) {
+    }
+
+    public void exitButton_pressed(ActionEvent actionEvent) {
+        Stage stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        stage.close();
     }
 }
