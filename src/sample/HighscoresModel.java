@@ -8,6 +8,10 @@ class HighscoresModel {
 
     private ArrayList<Record> scores;
 
+    /**
+     * Constructor
+     * Checks if file exists and loads existing data of highscores
+     */
     HighscoresModel() {
         scores = new ArrayList<>();
         if((new File("highscores.ser")).exists()) {
@@ -29,6 +33,7 @@ class HighscoresModel {
         }
     }
 
+    // Writes highscore to file
     void save() {
         try {
             FileOutputStream outFile = new FileOutputStream("highscores.ser");
@@ -41,15 +46,18 @@ class HighscoresModel {
         }
     }
 
+    // Add highscore to list and sort
     void add(String name, int score) {
         scores.add(new Record(name, score));
         Collections.sort(scores);
     }
 
+    // Returns whether score is a new highscore
     boolean checkHighscore(int score) {
         return score < scores.get(0).getScore();
     }
 
+    // Getters
     Record getRecord(int index) {
         return scores.get(index);
     }

@@ -40,6 +40,8 @@ public class GameViewController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        // Add all image views into array list to iterate when updating
         allImages = new ArrayList<>();
         allImages.add(imageView_1);
         allImages.add(imageView_2);
@@ -55,17 +57,22 @@ public class GameViewController implements Initializable {
         allImages.add(imageView_12);
 
         game = new ConcentrationModel();
-        turnOver();
+        updateView();
     }
 
+    // If image is clicked, checks and updates view accordingly
     public void imageView_clicked(MouseEvent mouseEvent) throws IOException {
+        // Get the id of card of the image view clicked
         ImageView imageView = (ImageView) mouseEvent.getSource();
         int currentIndex = Integer.parseInt(imageView.getId().substring(10)) - 1;
-        if (!game.getCardMatch(currentIndex) && !game.getCardFlip(currentIndex) && !game.card2Present()) {
+
+        // Use id to check if card is flippable
+        if (game.flippable(currentIndex)) {
             game.flipCard(currentIndex);
-            moves_label.setText(String.valueOf(game.getMoves()));
             updateView();
 
+            // If 2 cards are selected, check, and flip back/erase cards
+            // Pauses view update for 600ms so user can observe choices
             if (game.card2Present()) {
                 game.checkCards();
                 // Create new thread to sleep because original thread updateView will be paused as well until freed
@@ -78,7 +85,9 @@ public class GameViewController implements Initializable {
                     updateView();
                 }).start();
             }
-            if(game.gameOver()) {
+
+            // If all cards are matched, go to game over view
+            if(game.isAllMatched()) {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("GameOverView.fxml"));
                 Parent tableViewParent = loader.load();
@@ -97,13 +106,15 @@ public class GameViewController implements Initializable {
 
     }
 
+    // Resets game and updates view
     public void resetButton_pressed() {
-        game.resetGame();
+        game.startGame();
         updateView();
-        moves_label.setText("0");
     }
 
+    // Updates moves label and iterates through array of image view to update image
     private void updateView() {
+        moves_label.setText(String.valueOf(game.getMoves()));
         for(int i=0; i<12; i++) {
             if(game.getCardMatch(i)) {
                 allImages.get(i).setImage(null);
@@ -117,22 +128,7 @@ public class GameViewController implements Initializable {
         }
     }
 
-    private void turnOver() {
-        Image image = new Image(String.valueOf(getClass().getResource("/sample/resources/cardBack.png")));
-        imageView_1.setImage(image);
-        imageView_2.setImage(image);
-        imageView_3.setImage(image);
-        imageView_4.setImage(image);
-        imageView_5.setImage(image);
-        imageView_6.setImage(image);
-        imageView_7.setImage(image);
-        imageView_8.setImage(image);
-        imageView_9.setImage(image);
-        imageView_10.setImage(image);
-        imageView_11.setImage(image);
-        imageView_12.setImage(image);
-    }
-
+    // Go to menu button
     public void menuButton_pressed(ActionEvent actionEvent) throws IOException {
         Parent tableViewParent = FXMLLoader.load(getClass().getResource("MainMenuView.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);

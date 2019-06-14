@@ -18,22 +18,31 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class GameOverViewController implements Initializable {
+
     public Label moves_label;
     public Label lowestMoves_label;
     public Label name_label;
     public AnchorPane highscore_anchorPane;
 
+    /**
+     * IS CALLED FROM GAMEVIEW CONTROLLER
+     * Sets user's score label and prompts for name if highscore is beaten
+     * @param moves Gets the moves from game view to set label
+     */
     void initData(int moves) {
         moves_label.setText(String.valueOf(moves));
 
         HighscoresModel highscores = new HighscoresModel();
         if(highscores.checkHighscore(moves)) {
+
+            // Show prompt to put name
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Emoji Concentration");
             dialog.setHeaderText("New Highscore!");
             dialog.setContentText("Name:");
             Optional<String> result = dialog.showAndWait();
 
+            // Check if name is passed
             String passedName = "N/A";
             if (result.isPresent()) {
                 passedName = result.get();
@@ -48,6 +57,7 @@ public class GameOverViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // Reads in best score and updates labels
         HighscoresModel highscores = new HighscoresModel();
         if(highscores.getSize() > 0) {
             highscore_anchorPane.setVisible(true);
@@ -57,8 +67,10 @@ public class GameOverViewController implements Initializable {
         } else {
             highscore_anchorPane.setVisible(false);
         }
+
     }
 
+    // Scene change buttons
     public void playAgainButton_pressed(ActionEvent actionEvent) throws IOException {
         Parent tableViewParent = FXMLLoader.load(getClass().getResource("GameView.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);

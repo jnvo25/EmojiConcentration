@@ -12,11 +12,13 @@ public class Card implements Comparable<Card> {
         else return 1;
     }
 
+    // Card constructor
     Card(int passedValue) {
         value = passedValue;
         matched = false;
     }
 
+    // Getters
     boolean isMatched() {
         return matched;
     }
@@ -27,6 +29,7 @@ public class Card implements Comparable<Card> {
 
     int getValue() { return value; }
 
+    // Setters
     void setMatched() {
         matched = true;
     }

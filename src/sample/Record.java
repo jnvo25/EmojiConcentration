@@ -13,6 +13,7 @@ public class Record implements Comparable<Record>, Serializable {
        score = passedScore;
     }
 
+    // Getters for property value factory
     public int getScore() {
         return score;
     }

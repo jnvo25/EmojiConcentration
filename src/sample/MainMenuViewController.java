@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MainMenuViewController {
+
+    // Navigation buttons
     public void playGameButton_pressed(ActionEvent actionEvent) throws IOException {
         Parent tableViewParent = FXMLLoader.load(getClass().getResource("GameView.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);

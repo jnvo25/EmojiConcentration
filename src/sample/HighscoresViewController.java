@@ -29,6 +29,8 @@ public class HighscoresViewController  implements Initializable {
     @Override
     @SuppressWarnings("unchecked")
     public void initialize(URL location, ResourceBundle resources) {
+
+        // Set column values
         rankColumn.setCellFactory(new LineNumbersCellFactory());
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         scoreColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
@@ -36,6 +38,7 @@ public class HighscoresViewController  implements Initializable {
         tableView.setItems(getRecords());
     }
 
+    // Loads all record objects into observable lists for table
     private ObservableList<Record> getRecords() {
         ObservableList<Record> records = FXCollections.observableArrayList();
         HighscoresModel highscores = new HighscoresModel();
@@ -45,6 +48,7 @@ public class HighscoresViewController  implements Initializable {
         return records;
     }
 
+    // Button to go to menu
     public void menuButton_pressed(ActionEvent actionEvent) throws IOException {
         Parent tableViewParent = FXMLLoader.load(getClass().getResource("MainMenuView.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);
