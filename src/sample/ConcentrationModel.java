@@ -27,9 +27,9 @@ class ConcentrationModel {
     }
 
     void checkCards() {
-        if (card1.getValue() == card2.getValue()) {
-            card1.match();
-            card2.match();
+        if (card1.compareTo(card2) == 0) {
+            card1.setMatched();
+            card2.setMatched();
         } else {
             card1.flip();
             card2.flip();

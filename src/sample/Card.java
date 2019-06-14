@@ -8,8 +8,8 @@ public class Card implements Comparable<Card> {
     @Override
     public int compareTo(Card o) {
         if(value == o.value)
-            return 1;
-        else return 0;
+            return 0;
+        else return 1;
     }
 
     Card(int passedValue) {
@@ -27,7 +27,7 @@ public class Card implements Comparable<Card> {
 
     int getValue() { return value; }
 
-    void match() {
+    void setMatched() {
         matched = true;
     }
 
